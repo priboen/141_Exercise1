@@ -248,14 +248,19 @@ fun TextHasil(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Text(text = "Nama : " + namanya,
+        Text(
+            text = "Nama : " + namanya,
             modifier = Modifier
-                .padding(horizontal = 10.dp, vertical = 4.dp)
+                .padding(
+                    horizontal = 10.dp, vertical = 4.dp
+                )
         )
         Text(
             text = "Telepon : " + telponnya,
             modifier = Modifier
-                .padding(horizontal = 10.dp, vertical = 5.dp)
+                .padding(
+                    horizontal = 10.dp, vertical = 5.dp
+                )
         )
         Text(
             text = "Email : " + emailnya,

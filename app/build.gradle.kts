@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.adrikhamid.a141_exercise1"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.adrikhamid.a141_exercise1"

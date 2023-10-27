@@ -38,4 +38,8 @@ class CobaViewModel {
     fun setStatusU(pilihST: String){
         _uiState.update { currentState -> currentState.copy(stat = pilihST) }
     }
+
+    fun insertData(nm: String, tlp: String, ml: String) {
+
+    }
 }

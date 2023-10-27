@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">141_Exercise1</string>
+    <string name="register">Register</string>
+    <string name="laki">Laki-Laki</string>
+    <string name="wanita">Perempuan</string>
+    <string name="belum">Belum Menikah</string>
+    <string name="sudah">Sudah Menikah</string>
+</resources>

@@ -38,10 +38,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+
 import com.adrikhamid.a141_exercise1.data.DataForm
 import com.adrikhamid.a141_exercise1.data.DataSource.jenis
+import com.adrikhamid.a141_exercise1.data.DataStatus.status
 import com.adrikhamid.a141_exercise1.ui.theme._141_Exercise1Theme
 
 class MainActivity : ComponentActivity() {
@@ -64,14 +65,17 @@ class MainActivity : ComponentActivity() {
 fun TampilLayar(
     modifier: Modifier = Modifier
 ) {
+    Row {
+
+    }
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(10.dp)
         ) {
             TampilForm()
         }
@@ -84,6 +88,9 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
     var textNama by remember{ mutableStateOf("") }
     var textTlp by remember{ mutableStateOf("") }
     var textEmail by remember {
+        mutableStateOf("")
+    }
+    var textAlamat by remember {
         mutableStateOf("")
     }
 
@@ -112,22 +119,42 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
             textTlp = it
         }
     )
+    OutlinedTextField(
+        value = textEmail,
+        singleLine = true,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text(text = "Email")},
+        onValueChange = {
+            textEmail = it
+        }
+    )
     SelectJK(
         options = jenis.map { id -> context.resources.getString(id) },
         onSelectionChanged = {cobaViewModel.setJenisK(it)}
     )
+    SelectStat(
+        options = status.map{id->context.resources.getString(id)}, onSelectionChanged = {cobaViewModel.setStatusU(it)})
+    OutlinedTextField(
+        value = textAlamat, singleLine = true,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text(text = "Alamat")},
+        onValueChange = {
+            textAlamat = it
+        }
+    )
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            cobaViewModel.insertData(textNama, textTlp, dataForm.sex)
+            cobaViewModel.insertData(textNama, textTlp, textEmail, dataForm.sex,dataForm.stat, textAlamat)
         }
     ) {
         Text(text = stringResource(R.string.register),
             fontSize = 16.sp
         )
     }
-    Spacer(modifier = Modifier.height(180.dp))
-    TextHasil(namanya = cobaViewModel.namaUsr, telponnya = cobaViewModel.noTlp, jenisnya = cobaViewModel.jenisKl)
+    TextHasil(namanya = cobaViewModel.namaUsr, telponnya = cobaViewModel.noTlp, emailnya = cobaViewModel.emailUsr,jenisnya = cobaViewModel.jenisKl, statusnya = cobaViewModel.statusUsr, alamatnya = cobaViewModel.alamatUsr)
 }
 
 @Composable
@@ -135,8 +162,9 @@ fun SelectJK(
     options: List<String>,
     onSelectionChanged: (String) -> Unit={}
 ){
+    Text(text = "Jenis Kelamin")
     var selectedValue by rememberSaveable{ mutableStateOf("") }
-    Column(modifier = Modifier.padding(16.dp)) {
+    Row(modifier = Modifier.padding(5.dp)) {
         options.forEach {item ->
             Row(
                 modifier = Modifier.selectable(
@@ -166,10 +194,11 @@ fun SelectStat(
     options: List<String>,
     onSelectionChanged: (String) -> Unit = {}
 ){
+    Text(text = "Status")
     var  selectedValue by rememberSaveable {
         mutableStateOf("")
     }
-    Column(modifier = Modifier.padding(16.dp)) {
+    Row(modifier = Modifier.padding(5.dp)) {
         options.forEach { item ->
             Row(
                 modifier = Modifier.selectable(
@@ -195,7 +224,7 @@ fun SelectStat(
 }
 
 @Composable
-fun TextHasil(namanya: String,telponnya: String, jenisnya: String) {
+fun TextHasil(namanya: String,telponnya: String, emailnya: String,jenisnya: String, statusnya: String, alamatnya: String) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -212,7 +241,19 @@ fun TextHasil(namanya: String,telponnya: String, jenisnya: String) {
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
+        Text(
+            text = "Email : " + emailnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        )
         Text(text = "Jenis Kelamin : " + jenisnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        )
+        Text(text = "Status : " + statusnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp))
+        Text(text = "Alamat : " + alamatnya,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp))
     }
